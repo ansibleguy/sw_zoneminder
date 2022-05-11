@@ -9,4 +9,4 @@
     zabbix:
 
   roles:
-    - ansibleguy.sw_zabbix
+    - ansibleguy.sw_zoneminder

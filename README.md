@@ -5,8 +5,12 @@ Ansible Role to deploy a ZoneMinder IP-CAM server.
 
 Read into the [official documentation](https://zoneminder.readthedocs.io/en/stable/userguide/gettingstarted.html) on how to add ip-cams and so on.
 
+[![Ansible Galaxy](https://img.shields.io/ansible/role/59157)](https://galaxy.ansible.com/ansibleguy/sw_zoneminder)
+[![Ansible Galaxy Downloads](https://img.shields.io/badge/dynamic/json?color=blueviolet&label=Galaxy%20Downloads&query=%24.download_count&url=https%3A%2F%2Fgalaxy.ansible.com%2Fapi%2Fv1%2Froles%2F59157%2F%3Fformat%3Djson)](https://galaxy.ansible.com/ansibleguy/sw_zoneminder)
+
+
 **Tested:**
-* Debian 11
+* None
 
 
 ## Functionality
