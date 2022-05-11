@@ -1,0 +1,50 @@
+---
+
+- name: ZoneMinder | Debian | Webserver | Managing Apache2
+  ansible.builtin.include_role:
+    name: ansibleguy.infra_apache
+  vars:
+    apache:
+      security: "{{ ZM_CONFIG.apache.security }}"
+      modules:
+        present: "{{ ZM_HC.apache.modules }}"
+      sites:
+        zoneminder: "{{ zm_apache_path | combine(ZM_CONFIG.apache, recursive=true) }}"
+  no_log: true
+  tags: [config, certs]
+
+- name: ZoneMinder | Debian | Webserver | Adding apache app-config
+  ansible.builtin.template:
+    src: 'templates/etc/apache2/sites-available/zoneminder.conf.j2'
+    dest: '/etc/apache2/sites-available/site_zoneminder_app.conf'
+    owner: 'root'
+    group: 'root'
+    mode: 0644
+
+- name: ZoneMinder | Debian | Webserver | Configuring php timezone to configured one
+  ansible.builtin.lineinfile:
+    path: "/etc/php/{{ ZM_HC.php_version }}/apache2/php.ini"
+    line: "date.timezone = {{ ZM_CONFIG.timezone }}"
+    regexp: "^date.timezone"
+  when: ZM_CONFIG.timezone not in NONE_VALUES
+
+- name: ZoneMinder | Debian | Webserver | Getting local timezone
+  ansible.builtin.shell: "timedatectl | grep 'Time zone' | cut -d':' -f2 | cut -d' ' -f2"
+  register: controller_tz
+  delegate_to: localhost
+  changed_when: false
+  check_mode: false
+  become: false
+  when: ZM_CONFIG.timezone in NONE_VALUES
+
+- name: ZoneMinder | Debian | Webserver | Configuring php timezone to locally used one
+  ansible.builtin.lineinfile:
+    path: "/etc/php/{{ ZM_HC.php_version }}/apache2/php.ini"
+    line: "date.timezone = {{ controller_tz.stdout }}"
+    regexp: "^date.timezone"
+  when: ZM_CONFIG.timezone in NONE_VALUES
+
+- name: ZoneMinder | Debian | Webserver | Restarting webserver
+   ansible.builtin.systemd:
+    name: 'apache2.service'
+    state: restarted

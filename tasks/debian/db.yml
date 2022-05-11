@@ -1,0 +1,45 @@
+---
+
+- name: ZoneMinder | Debian | DB  | Setting up MariaDB instance
+  ansible.builtin.include_role:
+    name: ansibleguy.infra_mariadb
+  vars:
+    mariadb:
+      instances:
+        zoneminder: "{{ ZM_MARIADB_INSTANCE }}"
+  tags: [config, db]
+
+- name: ZoneMinder | Debian | DB | Checking if database is empty
+  community.mysql.mysql_query:
+    login_db: "{{ ZM_CONFIG.database.name }}"
+    query: "SELECT count(*) FROM information_schema.TABLES WHERE (TABLE_SCHEMA = '{{ ZM_CONFIG.database.name }}') AND (TABLE_NAME = 'users')"
+    login_unix_socket: "{{ ZM_MARIADB_INSTANCE.socket }}"
+    login_user: "{{ ZM_CONFIG.database.user }}"
+    login_password: "{{ ZM_CONFIG.database.pwd }}"
+  ignore_errors: true
+  register: zm_db_empty
+
+- name: ZoneMinder | Debian | DB | Connection failed!
+  ansible.builtin.fail:
+    msg: "The role was unable to connect to the database!
+    Try setting a 'static' password in your configuration. (zoneminder.database.pwd)"
+  when:
+    - zm_db_empty.failed is defined
+    - zm_db_empty.failed
+
+- name: ZoneMinder | Debian | DB | Importing database schema
+  community.mysql.mysql_db:
+    name: "{{ ZM_CONFIG.database.name }}"
+    state: import
+    force: true
+    single_transaction: true
+    use_shell: true  # else it will fail
+    target: "{{ ZM_HC.database.schema_file }}"
+    login_unix_socket: "{{ ZM_MARIADB_INSTANCE.socket }}"
+    login_user: "{{ ZM_CONFIG.database.pwd }}"
+    login_password: "{{ ZM_CONFIG.database.pwd }}"
+  when: not zm_db_empty['query_result'][0][0]['count(*)'] | bool
+
+- name: ZoneMinder | Debian | DB | Running db-update script
+  ansible.builtin.command: "{{ ZM_CONFIG.path.bin }}/zmupdate.pl"
+  when: not zm_db_empty['query_result'][0][0]['count(*)'] | bool

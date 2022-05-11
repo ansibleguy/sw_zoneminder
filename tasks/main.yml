@@ -1,0 +1,18 @@
+---
+
+- name: ZoneMinder | Checking for needed config
+  ansible.builtin.fail:
+    msg: "The role did not get all the config needed!
+    It needs: 'zoneminder' & 'zoneminder.apache.domain'"
+  when: >
+    zoneminder is undefined or
+    (ZM_CONFIG.manage.webserver and 'domain' not in ZM_CONFIG.apache)
+
+- name: ZoneMinder | Processing debian config
+  ansible.builtin.import_tasks: debian/main.yml
+  when: "ansible_distribution|lower in ['debian', 'ubuntu']"
+
+- name: ZoneMinder | Cleaning up temporary password files
+  ansible.builtin.file:
+    path: "{{ tmp_pwd_file_prefix }}_mysql"
+    state: absent

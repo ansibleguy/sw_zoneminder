@@ -1,0 +1,53 @@
+# {{ ansible_managed }}
+# ansibleguy.sw_zoneminder
+# source: https://github.com/ZoneMinder/zoneminder/tree/master/misc
+
+# Remember to enable cgi mod (i.e. "a2enmod cgi").
+ScriptAlias /zm/cgi-bin "/usr/lib/zoneminder/cgi-bin"
+<Directory "/usr/lib/zoneminder/cgi-bin">
+    Options +ExecCGI -MultiViews +SymLinksIfOwnerMatch
+    AllowOverride All
+    Require all granted
+</Directory>
+
+    # Order matters. This alias must come first.
+    Alias /zm/cache "/var/cache/zoneminder"
+    <Directory "/var/cache/zoneminder">
+        Options -Indexes +FollowSymLinks
+        AllowOverride None
+        <IfModule mod_authz_core.c>
+           # Apache 2.4
+           Require all granted
+        </IfModule>
+    </Directory>
+
+Alias /zm /usr/share/zoneminder/www
+<Directory /usr/share/zoneminder/www>
+  Options -Indexes +FollowSymLinks
+  <IfModule mod_dir.c>
+    DirectoryIndex index.php
+  </IfModule>
+</Directory>
+
+# fix for /zm/api throwing 404 => https://github.com/turnkeylinux/tracker/issues/1623
+<Directory "/usr/share/zoneminder/www/api">
+   RewriteEngine on
+   RewriteRule ^$ app/webroot/ [L]
+   RewriteRule (.*) app/webroot/$1 [L]
+   RewriteBase /zm/api
+</Directory>
+
+<Directory "/usr/share/zoneminder/www/api/app">
+   RewriteEngine on
+   RewriteRule ^$ webroot/ [L]
+   RewriteRule (.*) webroot/$1 [L]
+   RewriteBase /zm/api
+</Directory>
+
+<Directory "/usr/share/zoneminder/www/api/app/webroot">
+    RewriteEngine On
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteRule ^ index.php [L]
+    RewriteBase /zm/api
+</Directory>
