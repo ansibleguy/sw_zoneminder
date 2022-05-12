@@ -7,7 +7,6 @@
     mariadb:
       instances:
         zoneminder: "{{ ZM_MARIADB_INSTANCE }}"
-  tags: [config, db]
 
 - name: ZoneMinder | Debian | DB | Checking if database is empty
   community.mysql.mysql_query:
@@ -36,7 +35,7 @@
     use_shell: true  # else it will fail
     target: "{{ ZM_HC.database.schema_file }}"
     login_unix_socket: "{{ ZM_MARIADB_INSTANCE.socket }}"
-    login_user: "{{ ZM_CONFIG.database.pwd }}"
+    login_user: "{{ ZM_CONFIG.database.user }}"
     login_password: "{{ ZM_CONFIG.database.pwd }}"
   when: not zm_db_empty['query_result'][0][0]['count(*)'] | bool
 

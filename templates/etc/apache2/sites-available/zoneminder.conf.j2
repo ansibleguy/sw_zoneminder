@@ -2,6 +2,7 @@
 # ansibleguy.sw_zoneminder
 # source: https://github.com/ZoneMinder/zoneminder/tree/master/misc
 
+RedirectMatch ^/$ /zm/
 ScriptAlias /zm/cgi-bin "{{ ZM_CONFIG.path.cgi }}"
 <Directory "{{ ZM_CONFIG.path.cgi }}">
     Options +ExecCGI -MultiViews +SymLinksIfOwnerMatch

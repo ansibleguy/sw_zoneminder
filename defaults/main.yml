@@ -9,8 +9,8 @@ ZM_HC:
     tools: ['ncdu', 'iotop', 'iftop']
     base: ['zoneminder']
 
-  repo_key: 'https://zmrepo.zoneminder.com/debian/archive-keyring.gpg'
-  repo: "deb https://zmrepo.zoneminder.com/debian/release {{ ansible_lsb.codename }}/"
+  repo_key: "https://zmrepo.zoneminder.com/{{ ansible_distribution | lower }}/archive-keyring.gpg"
+  repo: "deb https://zmrepo.zoneminder.com/{{ ansible_distribution | lower }}/release {{ ansible_lsb.codename | default('buster') }}/"
   php_version: '7.4'
 
   apache:
@@ -23,6 +23,7 @@ ZM_HC:
 default_zm:
   tools: false  # install admin-tools for disk-space & i/o troubleshooting
   timezone: ''
+  add_repo: false  # not needed on debian
 
   manage:
     db: true
@@ -67,10 +68,7 @@ default_zm:
     update_password: 'always'  # or 'on_create'
     type: 'mysql'
     host: 'localhost'
-
-  release: "{{ zoneminder.release | default(ansible_lsb.codename) }}"
-  db_user: 'zoneminder'
-  store: '/var/local/zoneminder'
+    # port_socket:
 
 ZM_CONFIG: "{{ default_zm | combine(zoneminder, recursive=true) }}"
 

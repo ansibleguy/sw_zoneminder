@@ -10,7 +10,7 @@ Read into the [official documentation](https://zoneminder.readthedocs.io/en/stab
 
 
 **Tested:**
-* None
+* Debian 11
 
 
 ## Functionality
@@ -36,13 +36,14 @@ Read into the [official documentation](https://zoneminder.readthedocs.io/en/stab
 
 ## Info
 
-* **Warning:** THIS ROLE IS NOT YET IN A STABLE STATE!
-
-
 * **Note:** this role currently only supports debian-based systems
 
 
 * **Note:** Most of this functionality can be opted in or out using the main defaults file and variables!
+
+
+* **Warning:** You should AT LEAST [set a login password after the installation finished](https://zoneminder.readthedocs.io/en/stable/userguide/gettingstarted.html#enabling-authentication).
+
 
 ## Setup
 For this role to work - you must install its dependencies first:
@@ -101,5 +102,3 @@ ansible-playbook -K -D -i inventory/hosts.yml playbook.yml --ask-vault-pass
 
 There are also some useful **tags** available:
 * config
-* install
-* db

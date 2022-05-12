@@ -5,7 +5,7 @@
     name: "{{ ZM_HC.packages.dependencies }}"
     state: present
 
-- name: ZoneMinder | Debian | Installing dependencies
+- name: ZoneMinder | Debian | Installing admin-tools
   ansible.builtin.apt:
     name: "{{ ZM_HC.packages.tools }}"
     state: present
@@ -14,6 +14,7 @@
 - name: ZoneMinder | Debian | Adding repo-key
   ansible.builtin.apt_key:
     url: "{{ ZM_HC.repo_key }}"
+  when: ZM_CONFIG.add_repo
 
 - name: ZoneMinder | Debian | Adding package repository
   ansible.builtin.apt_repository:
@@ -21,11 +22,36 @@
     state: present
     update_cache: yes
     filename: 'zoneminder'
+  when: ZM_CONFIG.add_repo
+
+- name: ZoneMinder | Debian | Installing ZoneMinder
+  ansible.builtin.apt:
+    name: "{{ ZM_HC.packages.base }}"
+    state: present
+
+- name: ZoneMinder | Debian | Adding zoneminder config
+  ansible.builtin.template:
+    src: 'templates/etc/zm/conf.d/custom.conf.j2'
+    dest: '/etc/zm/conf.d/custom.conf'
+    owner: 'root'
+    group: 'www-data'
+    mode: 0640
+  no_log: true
+  tags: [config]
+  register: zm_cnf
+
+- name: ZoneMinder | Debian | Updating config-privileges
+  ansible.builtin.file:
+    path: '/etc/zm/zm.conf'
+    state: file
+    owner: 'root'
+    group: 'www-data'
+    mode: 0640
+  tags: [config]
 
 - name: ZoneMinder | Debian | Managing database
   ansible.builtin.import_tasks: db.yml
   when: ZM_CONFIG.manage.db
-  tags: [db]
 
 - name: ZoneMinder | Debian | Unmanaged DB
   ansible.builtin.pause:
@@ -46,31 +72,15 @@
     here: https://github.com/ZoneMinder/zoneminder/tree/master/misc"
   when: not ZM_CONFIG.manage.webserver
 
-- name: ZoneMinder | Debian | Installing ZoneMinder
-  ansible.builtin.apt:
-    name: "{{ ZM_HC.packages.base }}"
-    state: present
-
-- name: ZoneMinder | Debian | Adding zoneminder config
-   ansible.builtin.template:
-    src: 'templates/etc/zm/conf.d/custom.conf.j2'
-    dest: '/etc/zm/conf.d/custom.conf'
-    owner: 'root'
-    group: 'www-data'
-    mode: 0640
-  no_log: true
-
-- name: ZoneMinder | Debian | Updating config-privileges
-   ansible.builtin.file:
-    path: '/etc/zm/zm.conf'
-    state: file
-    owner: 'root'
-    group: 'www-data'
-    mode: 0640
-
 - name: ZoneMinder | Debian | Enabling/Starting service
-   ansible.builtin.systemd:
+  ansible.builtin.systemd:
     daemon_reload: yes
     name: 'zoneminder.service'
     enabled: yes
     state: started
+
+- name: ZoneMinder | Debian | Restarting service
+  ansible.builtin.systemd:
+    name: 'zoneminder.service'
+    state: restarted
+  when: zm_cnf.changed

@@ -45,6 +45,6 @@
   when: ZM_CONFIG.timezone in NONE_VALUES
 
 - name: ZoneMinder | Debian | Webserver | Restarting webserver
-   ansible.builtin.systemd:
+  ansible.builtin.systemd:
     name: 'apache2.service'
     state: restarted
