@@ -34,14 +34,11 @@ platforms:
   - name: test-ag-zm-1
     networks:
       - name: 'test-ag-zm'
-        ipv4_address: '192.168.0.20'
+        ipv4_address: '192.168.0.2'
     groups: [grp_targets]
     <<: *docker_all
 
 provisioner:
   name: ansible
-  #  config_options:
-  #    defaults:
-  #      vault_password_file: '~/.vault_pwd_file'
 verifier:
   name: ansible

@@ -49,7 +49,7 @@ default_zm:
     app_include: true  # DO NOT CHANGE!
 
     ssl:  # see: https://github.com/ansibleguy/infra_certs
-      mode: 'selfsigned'  # existing/selfsigned/ca/letsencrypt
+      mode: 'ca'  # existing/selfsigned/ca/letsencrypt
       cert:
         name:
         cn: 'NextCloud Certificate'
