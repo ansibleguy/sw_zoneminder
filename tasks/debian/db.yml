@@ -1,6 +1,6 @@
 ---
 
-- name: ZoneMinder | Debian | DB  | Setting up MariaDB instance
+- name: ZoneMinder | Debian | DB | Setting up MariaDB instance
   ansible.builtin.include_role:
     name: ansibleguy.infra_mariadb
   vars:
