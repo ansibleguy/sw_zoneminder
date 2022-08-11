@@ -1,0 +1,21 @@
+---
+
+NONE_VALUES: [none, '', ' ']
+random_pwd_length: '50'
+tmp_pwd_file_prefix: '/tmp/.ansibleguy.sw_zoneminder'
+
+ZM_HC:
+  packages:
+    dependencies: ['gpg']
+    tools: ['ncdu', 'iotop', 'iftop']
+    base: ['zoneminder']
+
+  repo_key: "https://zmrepo.zoneminder.com/{{ ansible_distribution | lower }}/archive-keyring.gpg"
+  repo: "deb https://zmrepo.zoneminder.com/{{ ansible_distribution | lower }}/release {{ ansible_lsb.codename | default('buster') }}/"
+  php_version: '7.4'
+
+  apache:
+    modules: ['ssl', 'headers', 'rewrite', 'http2', 'cgi']
+
+  database:
+    schema_file: '/usr/share/zoneminder/db/zm_create.sql'

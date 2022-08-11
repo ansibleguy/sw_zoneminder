@@ -1,0 +1,5 @@
+---
+
+zm_apache_path:
+  serve:
+    path: "{{ ZM_CONFIG.path.web }}"

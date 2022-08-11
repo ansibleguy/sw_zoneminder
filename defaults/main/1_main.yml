@@ -1,26 +1,6 @@
 ---
 
-random_pwd_length: '50'
-tmp_pwd_file_prefix: '/tmp/.ansibleguy.sw_zoneminder'
-
-ZM_HC:
-  packages:
-    dependencies: ['gpg']
-    tools: ['ncdu', 'iotop', 'iftop']
-    base: ['zoneminder']
-
-  repo_key: "https://zmrepo.zoneminder.com/{{ ansible_distribution | lower }}/archive-keyring.gpg"
-  repo: "deb https://zmrepo.zoneminder.com/{{ ansible_distribution | lower }}/release {{ ansible_lsb.codename | default('buster') }}/"
-  php_version: '7.4'
-
-  apache:
-    modules: ['ssl', 'headers', 'rewrite', 'http2', 'cgi']
-
-  database:
-    schema_file: '/usr/share/zoneminder/db/zm_create.sql'
-
-
-default_zm:
+defaults_zm:
   tools: false  # install admin-tools for disk-space & i/o troubleshooting
   timezone: ''
   add_repo: false  # not needed on debian
@@ -70,27 +50,4 @@ default_zm:
     host: 'localhost'
     # port_socket:
 
-ZM_CONFIG: "{{ default_zm | combine(zoneminder, recursive=true) }}"
-
-ZM_MARIADB_INSTANCE: "{{ {
-  'dbs': {
-    ZM_CONFIG.database.name: {
-      'encoding': 'utf8',
-      'collation': 'utf8_bin'
-    },
-  },
-  'users': {
-    ZM_CONFIG.database.user: {
-      'priv': ZM_CONFIG.database.name + '.*:ALL',
-      'pwd': ZM_CONFIG.database.pwd,
-      'update_pwd': ZM_CONFIG.database.update_password
-    },
-  },
-  'settings': ZM_CONFIG.database.settings,
-  'socket': '/run/mysqld/mysqld_zoneminder.sock'
-} }}"  # DO NOT CHANGE!
-
-NONE_VALUES: [none, '', ' ']
-zm_apache_path:
-  serve:
-    path: "{{ ZM_CONFIG.path.web }}"
+ZM_CONFIG: "{{ defaults_zm | combine(zoneminder, recursive=true) }}"

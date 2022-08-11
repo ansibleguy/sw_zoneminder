@@ -1,0 +1,19 @@
+---
+
+ZM_MARIADB_INSTANCE: "{{ {
+  'dbs': {
+    ZM_CONFIG.database.name: {
+      'encoding': 'utf8',
+      'collation': 'utf8_bin'
+    },
+  },
+  'users': {
+    ZM_CONFIG.database.user: {
+      'priv': ZM_CONFIG.database.name + '.*:ALL',
+      'pwd': ZM_CONFIG.database.pwd,
+      'update_pwd': ZM_CONFIG.database.update_password
+    },
+  },
+  'settings': ZM_CONFIG.database.settings,
+  'socket': '/run/mysqld/mysqld_zoneminder.sock'
+} }}"  # DO NOT CHANGE!
