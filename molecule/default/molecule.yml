@@ -28,6 +28,7 @@ platforms:
     networks:
       - name: 'test-ag-zm'
         ipv4_address: '192.168.0.1'
+    etc_hosts: {zoneminder.test.ansibleguy.net: '192.168.0.2'}
     groups: [grp_tester]
     <<: *docker_all
 
@@ -42,3 +43,20 @@ provisioner:
   name: ansible
 verifier:
   name: ansible
+lint:
+  name: yamllint
+scenario:
+  name: default
+  test_sequence:
+    - lint
+    - destroy
+#    - dependency
+    - syntax
+    - create
+#    - prepare
+    - converge
+    - idempotence
+    - check
+#    - side_effect
+    - verify
+    - destroy

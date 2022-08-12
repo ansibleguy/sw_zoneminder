@@ -45,7 +45,7 @@ defaults_zm:
     settings: {}  # mariadb setting overrides
 
     # ONLY CHANGE IF DB IS NOT MANAGED BY ROLE!
-    update_password: 'always'  # or 'on_create'
+    update_password: 'on_create'  # or 'always'
     type: 'mysql'
     host: 'localhost'
     # port_socket:

@@ -11,10 +11,10 @@
 - name: ZoneMinder | Debian | DB | Checking if database is empty
   community.mysql.mysql_query:
     login_db: "{{ ZM_CONFIG.database.name }}"
-    query: "SELECT count(*) FROM information_schema.TABLES WHERE (TABLE_SCHEMA = '{{ ZM_CONFIG.database.name }}') AND (TABLE_NAME = 'users')"
+    query: "SELECT count(*) FROM information_schema.TABLES WHERE (TABLE_SCHEMA = '{{ ZM_CONFIG.database.name }}')"
     login_unix_socket: "{{ ZM_MARIADB_INSTANCE.socket }}"
     login_user: "{{ ZM_CONFIG.database.user }}"
-    login_password: "{{ ZM_CONFIG.database.pwd }}"
+    login_password: "{{ zm_db_pwd.stdout | default(ZM_CONFIG.database.pwd) }}"
   ignore_errors: true
   register: zm_db_empty
 
@@ -36,9 +36,9 @@
     target: "{{ ZM_HC.database.schema_file }}"
     login_unix_socket: "{{ ZM_MARIADB_INSTANCE.socket }}"
     login_user: "{{ ZM_CONFIG.database.user }}"
-    login_password: "{{ ZM_CONFIG.database.pwd }}"
-  when: not zm_db_empty['query_result'][0][0]['count(*)'] | bool
+    login_password: "{{ zm_db_pwd.stdout | default(ZM_CONFIG.database.pwd) }}"
+  when: zm_db_empty['query_result'][0][0]['count(*)'] | int == 0
 
 - name: ZoneMinder | Debian | DB | Running db-update script
   ansible.builtin.command: "{{ ZM_CONFIG.path.bin }}/zmupdate.pl"
-  when: not zm_db_empty['query_result'][0][0]['count(*)'] | bool
+  when: zm_db_empty['query_result'][0][0]['count(*)'] | int == 0

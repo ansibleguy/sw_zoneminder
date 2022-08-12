@@ -1,0 +1,8 @@
+# {{ ansible_managed }}
+# ansibleguy.sw_zoneminder
+
+ZM_DB_TYPE={{ ZM_CONFIG.database.type }}
+ZM_DB_HOST={{ ZM_CONFIG.database.host }}:{{ ZM_CONFIG.database.port_socket | default(ZM_MARIADB_INSTANCE.socket) }}
+ZM_DB_NAME={{ ZM_CONFIG.database.name }}
+ZM_DB_USER={{ ZM_CONFIG.database.user }}
+ZM_DB_PASS={{ ZM_CONFIG.database.pwd }}

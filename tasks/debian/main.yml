@@ -40,6 +40,34 @@
   tags: [config]
   register: zm_cnf
 
+- name: ZoneMinder | Debian | Checking for database config
+  ansible.builtin.stat:
+    path: '/etc/zm/conf.d/custom_db.conf'
+  register: zm_db_cnf_file
+
+- name: ZoneMinder | Debian | Adding zoneminder database config
+  ansible.builtin.template:
+    src: 'templates/etc/zm/conf.d/custom_db.conf.j2'
+    dest: '/etc/zm/conf.d/custom_db.conf'
+    owner: 'root'
+    group: 'www-data'
+    mode: 0640
+  no_log: true
+  tags: [config]
+  register: zm_db_cnf
+  when: >
+    ZM_CONFIG.database.update_password == 'always' or
+    (force_pwd_change is defined and force_pwd_change) or
+    not zm_db_cnf_file.stat.exists
+
+- name: ZoneMinder | Debian | Pulling existing database password
+  ansible.builtin.shell:
+    cmd: "cat /etc/zm/conf.d/custom_db.conf | grep 'ZM_DB_PASS' | cut -d '=' -f2"
+  register: zm_db_pwd
+  when: zm_db_cnf_file.stat.exists
+  check_mode: false
+  changed_when: false
+
 - name: ZoneMinder | Debian | Updating config-privileges
   ansible.builtin.file:
     path: '/etc/zm/zm.conf'

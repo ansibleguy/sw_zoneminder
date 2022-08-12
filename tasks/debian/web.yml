@@ -48,3 +48,4 @@
   ansible.builtin.systemd:
     name: 'apache2.service'
     state: restarted
+  changed_when: false
