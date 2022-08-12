@@ -25,7 +25,7 @@
         - 'apache2.service'
 
     - name: Checking ports
-      wait_for:
+      ansible.builtin.wait_for:
         port: "{{ item }}"
         timeout: 1
         msg: "Checking port {{ item }}"
@@ -35,7 +35,8 @@
         - 80
         - 443
 
-    - debug:
+    - name: 'Test'
+      ansible.builtin.debug:
         var: port_test
 
 - name: Verify

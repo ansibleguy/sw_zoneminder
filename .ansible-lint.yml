@@ -4,3 +4,5 @@ skip_list:
   - 'var-naming'
   - 'no-handler'
   - 'role-name'
+  - 'ignore-errors'
+  - 'yaml'
