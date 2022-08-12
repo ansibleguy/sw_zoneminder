@@ -3,11 +3,8 @@
 galaxy_info:
   author: 'AnsibleGuy <guy@ansibleguy.net>'
   namespace: 'ansibleguy'
-  readme: 'README.md'
   license: 'GPLv3'
-  repository: 'https://github.com/ansibleguy/sw_zoneminder'
   issue_tracker_url: 'https://github.com/ansibleguy/sw_zoneminder/issues'
-  github_branch: 'stable'
   min_ansible_version: 2.9.10
   description: 'Role to provision Zoneminder IP-CAM Servers'
   platforms:

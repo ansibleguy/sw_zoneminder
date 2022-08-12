@@ -42,10 +42,10 @@
   hosts: grp_tester
   gather_facts: false
   tasks:
-  - name: Checking if zoneminder web-service is reachable
-    ansible.builtin.uri:
-      url: 'https://zoneminder.test.ansibleguy.net'
-      return_content: yes
-      validate_certs: false
-    register: page
-    failed_when: "'Zoneminder' not in page.content"
+    - name: Checking if zoneminder web-service is reachable
+      ansible.builtin.uri:
+        url: 'https://zoneminder.test.ansibleguy.net'
+        return_content: yes
+        validate_certs: false
+      register: page
+      failed_when: "'Zoneminder' not in page.content"
