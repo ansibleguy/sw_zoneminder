@@ -29,7 +29,6 @@
         port: "{{ item }}"
         timeout: 1
         msg: "Checking port {{ item }}"
-      ignore_errors: true
       loop:
         - 80
         - 443
