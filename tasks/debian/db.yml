@@ -17,6 +17,7 @@
     login_password: "{{ zm_db_pwd.stdout | default(ZM_CONFIG.database.pwd) }}"
   ignore_errors: true
   register: zm_db_empty
+  check_mode: false
 
 - name: ZoneMinder | Debian | DB | Connection failed!
   ansible.builtin.fail:
