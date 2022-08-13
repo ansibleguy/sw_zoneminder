@@ -30,14 +30,9 @@
         timeout: 1
         msg: "Checking port {{ item }}"
       ignore_errors: true
-      register: port_test
       loop:
         - 80
         - 443
-
-    - name: 'Test'
-      ansible.builtin.debug:
-        var: port_test
 
 - name: Verify
   hosts: grp_tester
@@ -49,4 +44,4 @@
         return_content: yes
         validate_certs: false
       register: page
-      failed_when: "'Zoneminder' not in page.content"
+      failed_when: "'ZoneMinder server' not in page.content"
