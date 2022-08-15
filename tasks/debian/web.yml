@@ -37,6 +37,8 @@
   changed_when: false
   check_mode: false
   become: false
+  args:
+    executable: '/bin/bash'
   when: ZM_CONFIG.timezone in NONE_VALUES
 
 - name: ZoneMinder | Debian | Webserver | Configuring php timezone to locally used one
