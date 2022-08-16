@@ -62,7 +62,7 @@
 
 - name: ZoneMinder | Debian | Pulling existing database password
   ansible.builtin.shell:
-    cmd: "cat /etc/zm/conf.d/custom_db.conf | grep 'ZM_DB_PASS' | cut -d '=' -f2"
+    cmd: "cat /etc/zm/conf.d/custom_db.conf | grep 'ZM_DB_PASS' | cut -d '=' -f2-"
   register: zm_db_pwd
   when: zm_db_cnf_file.stat.exists
   check_mode: false
