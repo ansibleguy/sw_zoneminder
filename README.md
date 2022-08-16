@@ -67,7 +67,7 @@ Example for a zoneminder server:
 ```yaml
 zoneminder:
   timezone: 'Europe/Vienna'
-  tools: true  # install useful admin-tools'
+  tools: true  # install useful admin-tools
   
   apache:
     domain: 'zoneminder.template.ansibleguy.net'
