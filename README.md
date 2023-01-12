@@ -15,6 +15,17 @@ Read into the [official documentation](https://zoneminder.readthedocs.io/en/stab
 **Tested:**
 * Debian 11
 
+## Install
+
+```bash
+ansible-galaxy install ansibleguy.sw_zoneminder
+
+# or to custom role-path
+ansible-galaxy install ansibleguy.sw_zoneminder --roles-path ./roles
+
+# install dependencies
+ansible-galaxy install -r requirements.yml
+```
 
 ## Functionality
 
@@ -49,13 +60,6 @@ Read into the [official documentation](https://zoneminder.readthedocs.io/en/stab
 
 * **Warning:** You should AT LEAST [set a login password after the installation finished](https://zoneminder.readthedocs.io/en/stable/userguide/gettingstarted.html#enabling-authentication).
 
-
-## Setup
-For this role to work - you must install its dependencies first:
-
-```
-ansible-galaxy install -r requirements.yml
-```
 
 ## Usage
 
