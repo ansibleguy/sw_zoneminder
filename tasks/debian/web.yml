@@ -12,6 +12,9 @@
         zoneminder: "{{ zm_apache_path | combine(ZM_CONFIG.apache, recursive=true) }}"
   no_log: true
   tags: [config, certs]
+  args:
+    apply:
+      tags: [config, certs]
 
 - name: ZoneMinder | Debian | Webserver | Adding apache app-config
   ansible.builtin.template:
