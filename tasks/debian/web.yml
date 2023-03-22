@@ -8,6 +8,7 @@
       security: "{{ ZM_CONFIG.apache.security }}"
       modules:
         present: "{{ ZM_HC.apache.modules }}"
+      ssl: "{{ ZM_CONFIG.apache.ssl }}"
       sites:
         zoneminder: "{{ zm_apache_path | combine(ZM_CONFIG.apache, recursive=true) }}"
   no_log: true
