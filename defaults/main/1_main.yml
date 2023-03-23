@@ -27,6 +27,7 @@ defaults_zm:
 
     mode: 'serve'  # DO NOT CHANGE!
     app_include: true  # DO NOT CHANGE!
+    file: 'zoneminder'  # /etc/apache2/sites-available/site_${file}_app.conf
 
     ssl:  # see: https://github.com/ansibleguy/infra_certs
       mode: 'ca'  # existing/selfsigned/ca/letsencrypt

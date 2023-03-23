@@ -20,7 +20,7 @@
 - name: ZoneMinder | Debian | Webserver | Adding apache app-config
   ansible.builtin.template:
     src: 'templates/etc/apache2/sites-available/zoneminder.conf.j2'
-    dest: '/etc/apache2/sites-available/site_zoneminder_app.conf'
+    dest: "/etc/apache2/sites-available/site_{{ ZM_CONFIG.apache.file }}_app.conf"
     owner: 'root'
     group: 'root'
     mode: 0644
