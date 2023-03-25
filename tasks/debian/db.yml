@@ -42,4 +42,5 @@
 
 - name: ZoneMinder | Debian | DB | Running db-update script
   ansible.builtin.command: "{{ ZM_CONFIG.path.bin }}/zmupdate.pl"
+  changed_when: false
   when: zm_db_empty['query_result'][0][0]['count(*)'] | int == 0
