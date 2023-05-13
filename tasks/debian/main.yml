@@ -80,7 +80,7 @@
 
 - name: ZoneMinder | Debian | Managing database
   ansible.builtin.import_tasks: db.yml
-  when: ZM_CONFIG.manage.db
+  when: ZM_CONFIG.manage.db | bool
 
 - name: ZoneMinder | Debian | Unmanaged DB
   ansible.builtin.pause:
@@ -88,18 +88,18 @@
     This can be done like this when using a local database: 'cat {{ ZM_HC.database.schema_file }}
     | mysql --socket /run/mysqld/mysqld.sock -uroot -p {{ ZM_CONFIG.database.name }}'.
     Make sure the schema is imported before continuing!"
-  when: not ZM_CONFIG.manage.db
+  when: not ZM_CONFIG.manage.db | bool
 
 - name: ZoneMinder | Debian | Managing webserver
   ansible.builtin.import_tasks: web.yml
-  when: ZM_CONFIG.manage.webserver
+  when: ZM_CONFIG.manage.webserver | bool
   tags: [config]
 
 - name: ZoneMinder | Debian | Unmanaged webserver
   ansible.builtin.pause:
     prompt: "Since this role is not managing the zoneminder-webserver, you will need to add its custom config as shown
     here: https://github.com/ZoneMinder/zoneminder/tree/master/misc"
-  when: not ZM_CONFIG.manage.webserver
+  when: not ZM_CONFIG.manage.webserver | bool
 
 - name: ZoneMinder | Debian | Enabling/Starting service
   ansible.builtin.systemd:
