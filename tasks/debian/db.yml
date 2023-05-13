@@ -1,6 +1,6 @@
 ---
 
-- name: ZoneMinder | Debian | DB | Setting up MariaDB instance
+- name: ZoneMinder | DB | Setting up MariaDB instance
   ansible.builtin.include_role:
     name: ansibleguy.infra_mariadb
   vars:
@@ -8,7 +8,7 @@
       instances:
         zoneminder: "{{ ZM_MARIADB_INSTANCE }}"
 
-- name: ZoneMinder | Debian | DB | Checking if database is empty
+- name: ZoneMinder | DB | Checking if database is empty
   community.mysql.mysql_query:
     login_db: "{{ ZM_CONFIG.database.name }}"
     query: "SELECT count(*) FROM information_schema.TABLES WHERE (TABLE_SCHEMA = '{{ ZM_CONFIG.database.name }}')"
@@ -19,7 +19,7 @@
   register: zm_db_empty
   check_mode: false
 
-- name: ZoneMinder | Debian | DB | Connection failed!
+- name: ZoneMinder | DB | Connection failed!
   ansible.builtin.fail:
     msg: "The role was unable to connect to the database!
     Try setting a 'static' password in your configuration. (zoneminder.database.pwd)"
@@ -27,7 +27,7 @@
     - zm_db_empty.failed is defined
     - zm_db_empty.failed
 
-- name: ZoneMinder | Debian | DB | Importing database schema
+- name: ZoneMinder | DB | Importing database schema
   community.mysql.mysql_db:
     name: "{{ ZM_CONFIG.database.name }}"
     state: import
@@ -40,7 +40,7 @@
     login_password: "{{ zm_db_pwd.stdout | default(ZM_CONFIG.database.pwd) }}"
   when: zm_db_empty['query_result'][0][0]['count(*)'] | int == 0
 
-- name: ZoneMinder | Debian | DB | Running db-update script
+- name: ZoneMinder | DB | Running db-update script
   ansible.builtin.command: "{{ ZM_CONFIG.path.bin }}/zmupdate.pl"
   changed_when: false
   when: zm_db_empty['query_result'][0][0]['count(*)'] | int == 0

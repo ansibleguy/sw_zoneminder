@@ -1,22 +1,22 @@
 ---
 
-- name: ZoneMinder | Debian | Installing dependencies
+- name: ZoneMinder | Installing dependencies
   ansible.builtin.apt:
     name: "{{ ZM_HC.packages.dependencies }}"
     state: present
 
-- name: ZoneMinder | Debian | Installing admin-tools
+- name: ZoneMinder | Installing admin-tools
   ansible.builtin.apt:
     name: "{{ ZM_HC.packages.tools }}"
     state: present
   when: ZM_CONFIG.tools
 
-- name: ZoneMinder | Debian | Adding repo-key
+- name: ZoneMinder | Adding repo-key
   ansible.builtin.apt_key:
     url: "{{ ZM_HC.repo_key }}"
   when: ZM_CONFIG.add_repo
 
-- name: ZoneMinder | Debian | Adding package repository
+- name: ZoneMinder | Adding package repository
   ansible.builtin.apt_repository:
     repo: "{{ ZM_HC.repo }}"
     state: present
@@ -24,12 +24,12 @@
     filename: 'zoneminder'
   when: ZM_CONFIG.add_repo
 
-- name: ZoneMinder | Debian | Installing ZoneMinder
+- name: ZoneMinder | Installing ZoneMinder
   ansible.builtin.apt:
     name: "{{ ZM_HC.packages.base }}"
     state: present
 
-- name: ZoneMinder | Debian | Adding zoneminder config
+- name: ZoneMinder | Adding zoneminder config
   ansible.builtin.template:
     src: 'templates/etc/zm/conf.d/custom.conf.j2'
     dest: '/etc/zm/conf.d/custom.conf'
@@ -40,12 +40,12 @@
   tags: [config]
   register: zm_cnf
 
-- name: ZoneMinder | Debian | Checking for database config
+- name: ZoneMinder | Checking for database config
   ansible.builtin.stat:
     path: '/etc/zm/conf.d/custom_db.conf'
   register: zm_db_cnf_file
 
-- name: ZoneMinder | Debian | Adding zoneminder database config
+- name: ZoneMinder | Adding zoneminder database config
   ansible.builtin.template:
     src: 'templates/etc/zm/conf.d/custom_db.conf.j2'
     dest: '/etc/zm/conf.d/custom_db.conf'
@@ -60,7 +60,7 @@
     (force_pwd_change is defined and force_pwd_change) or
     not zm_db_cnf_file.stat.exists
 
-- name: ZoneMinder | Debian | Pulling existing database password
+- name: ZoneMinder | Pulling existing database password
   ansible.builtin.shell: |
     set -o pipefail
     cat /etc/zm/conf.d/custom_db.conf | grep 'ZM_DB_PASS' | cut -d '=' -f2-
@@ -69,7 +69,7 @@
   check_mode: false
   changed_when: false
 
-- name: ZoneMinder | Debian | Updating config-privileges
+- name: ZoneMinder | Updating config-privileges
   ansible.builtin.file:
     path: '/etc/zm/zm.conf'
     state: file
@@ -78,11 +78,11 @@
     mode: 0640
   tags: [config]
 
-- name: ZoneMinder | Debian | Managing database
+- name: ZoneMinder | Managing database
   ansible.builtin.import_tasks: db.yml
   when: ZM_CONFIG.manage.db | bool
 
-- name: ZoneMinder | Debian | Unmanaged DB
+- name: ZoneMinder | Unmanaged DB
   ansible.builtin.pause:
     prompt: "Since this role is not managing the zoneminder-database, you will need to import the database schema initially!
     This can be done like this when using a local database: 'cat {{ ZM_HC.database.schema_file }}
@@ -90,25 +90,25 @@
     Make sure the schema is imported before continuing!"
   when: not ZM_CONFIG.manage.db | bool
 
-- name: ZoneMinder | Debian | Managing webserver
+- name: ZoneMinder | Managing webserver
   ansible.builtin.import_tasks: web.yml
   when: ZM_CONFIG.manage.webserver | bool
   tags: [config]
 
-- name: ZoneMinder | Debian | Unmanaged webserver
+- name: ZoneMinder | Unmanaged webserver
   ansible.builtin.pause:
     prompt: "Since this role is not managing the zoneminder-webserver, you will need to add its custom config as shown
     here: https://github.com/ZoneMinder/zoneminder/tree/master/misc"
   when: not ZM_CONFIG.manage.webserver | bool
 
-- name: ZoneMinder | Debian | Enabling/Starting service
+- name: ZoneMinder | Enabling/Starting service
   ansible.builtin.systemd:
     daemon_reload: yes
     name: 'zoneminder.service'
     enabled: yes
     state: started
 
-- name: ZoneMinder | Debian | Restarting service
+- name: ZoneMinder | Restarting service
   ansible.builtin.systemd:
     name: 'zoneminder.service'
     state: restarted
