@@ -50,5 +50,3 @@ defaults_zm:
     type: 'mysql'
     host: 'localhost'
     # port_socket:
-
-ZM_CONFIG: "{{ defaults_zm | combine(zoneminder, recursive=true) }}"
