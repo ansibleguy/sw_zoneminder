@@ -5,7 +5,7 @@ galaxy_info:
   namespace: 'ansibleguy'
   license: 'GPLv3'
   issue_tracker_url: 'https://github.com/ansibleguy/sw_zoneminder/issues'
-  min_ansible_version: 2.9.10
+  min_ansible_version: 2.14
   description: 'Role to provision Zoneminder IP-CAM Servers'
   platforms:
     - name: Debian
