@@ -18,6 +18,10 @@ Read into the [official documentation](https://zoneminder.readthedocs.io/en/stab
 ## Install
 
 ```bash
+# latest
+ansible-galaxy role install git+https://github.com/ansibleguy/sw_zoneminder
+
+# from galaxy
 ansible-galaxy install ansibleguy.sw_zoneminder
 
 # or to custom role-path
