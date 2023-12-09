@@ -11,7 +11,7 @@ Read into the [official documentation](https://zoneminder.readthedocs.io/en/stab
 [![Ansible-Lint Test Status](https://badges.ansibleguy.net/sw_zoneminder.ansiblelint.svg)](https://github.com/ansibleguy/_meta_cicd/blob/latest/templates/usr/local/bin/cicd/ansiblelint.sh.j2)
 [![Ansible Galaxy](https://badges.ansibleguy.net/galaxy.badge.svg)](https://galaxy.ansible.com/ui/standalone/roles/ansibleguy/sw_zoneminder)
 
-[Molecule Logs (if failed)](https://badges.ansibleguy.net/log/molecule_sw_zoneminder_test.log)
+Molecule Logs: [Short](https://badges.ansibleguy.net/log/molecule_sw_zoneminder_test_short.log), [Full](https://badges.ansibleguy.net/log/molecule_sw_zoneminder_test.log)
 
 **Tested:**
 * Debian 11
