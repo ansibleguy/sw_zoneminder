@@ -62,7 +62,7 @@ ansible-galaxy install -r requirements.yml
 
 * **Note:** Most of the role's functionality can be opted in or out.
 
-  For all available options - see the default-config located in the main defaults-file!
+  For all available options - see the default-config located in [the main defaults-file](https://github.com/ansibleguy/sw_zoneminder/blob/latest/defaults/main/1_main.yml)!
 
 
 * **Warning:** You should AT LEAST [set a login password after the installation finished](https://zoneminder.readthedocs.io/en/stable/userguide/gettingstarted.html#enabling-authentication).
