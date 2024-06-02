@@ -34,39 +34,7 @@ ansible-galaxy install ansibleguy.sw_zoneminder --roles-path ./roles
 ansible-galaxy install -r requirements.yml
 ```
 
-## Functionality
-
-* **Package installation**
-  * ZoneMinder Server
-    * Base package and dependencies
-    * Apache2 => using [THIS Role](https://github.com/ansibleguy/infra_apache)
-    * MariaDB => using [THIS Role](https://github.com/ansibleguy/infra_mariadb)
-
-
-* **Configuration**
-  * Default opt-ins:
-    * Database setup
-    * Webserver setup
-
-  * Default opt-outs:
-    * Admin-tools
-
-  * Default config:
-    * Logging to syslog
-    * Self-Signed certificate
-
-## Info
-
-* **Note:** this role currently only supports debian-based systems
-
-
-* **Note:** Most of the role's functionality can be opted in or out.
-
-  For all available options - see the default-config located in [the main defaults-file](https://github.com/ansibleguy/sw_zoneminder/blob/latest/defaults/main/1_main.yml)!
-
-
-* **Warning:** You should AT LEAST [set a login password after the installation finished](https://zoneminder.readthedocs.io/en/stable/userguide/gettingstarted.html#enabling-authentication).
-
+----
 
 ## Usage
 
@@ -120,3 +88,41 @@ ansible-playbook -K -D -i inventory/hosts.yml playbook.yml --ask-vault-pass
 
 There are also some useful **tags** available:
 * config
+
+----
+
+## Functionality
+
+* **Package installation**
+  * ZoneMinder Server
+    * Base package and dependencies
+    * Apache2 => using [THIS Role](https://github.com/ansibleguy/infra_apache)
+    * MariaDB => using [THIS Role](https://github.com/ansibleguy/infra_mariadb)
+
+
+* **Configuration**
+  * Default opt-ins:
+    * Database setup
+    * Webserver setup
+
+  * Default opt-outs:
+    * Admin-tools
+
+  * Default config:
+    * Logging to syslog
+    * Self-Signed certificate
+
+----
+
+## Info
+
+* **Note:** this role currently only supports debian-based systems
+
+
+* **Note:** Most of the role's functionality can be opted in or out.
+
+  For all available options - see the default-config located in [the main defaults-file](https://github.com/ansibleguy/sw_zoneminder/blob/latest/defaults/main/1_main.yml)!
+
+
+* **Warning:** You should AT LEAST [set a login password after the installation finished](https://zoneminder.readthedocs.io/en/stable/userguide/gettingstarted.html#enabling-authentication).
+
