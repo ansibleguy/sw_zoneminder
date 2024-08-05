@@ -30,7 +30,7 @@ defaults_zm:
     file: 'zoneminder'  # /etc/apache2/sites-available/site_${file}_app.conf
 
     ssl:  # see: https://github.com/ansibleguy/infra_certs
-      mode: 'ca'  # existing/selfsigned/ca/letsencrypt
+      mode: 'snakeoil'  # existing/selfsigned/ca/letsencrypt/snakeoil
       cert:
         name:
         cn: 'NextCloud Certificate'

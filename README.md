@@ -55,7 +55,7 @@ zoneminder:
     aliases: ['zm.template.ansibleguy.net']
 
     ssl:
-      mode: 'letsencrypt'  # or selfsigned/ca
+      mode: 'letsencrypt'  # or selfsigned/ca/snakeoil
       #  if you use 'selfsigned' or 'ca':
       #    cert:
       #      cn: 'ZoneMinder Server'
