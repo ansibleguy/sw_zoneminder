@@ -1,0 +1,3 @@
+---
+
+ZM_CONFIG: "{{ defaults_zm | combine(zoneminder, recursive=true) }}"

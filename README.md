@@ -5,20 +5,28 @@ Ansible Role to deploy a ZoneMinder IP-CAM server.
 
 Read into the [official documentation](https://zoneminder.readthedocs.io/en/stable/userguide/gettingstarted.html) on how to add ip-cams and so on.
 
+<a href='https://ko-fi.com/ansible0guy' target='_blank'><img height='35' style='border:0px;height:46px;' src='https://az743702.vo.msecnd.net/cdn/kofi3.png?v=0' border='0' alt='Buy me a coffee' />
+
 [![Molecule Test Status](https://badges.ansibleguy.net/sw_zoneminder.molecule.svg)](https://github.com/ansibleguy/_meta_cicd/blob/latest/templates/usr/local/bin/cicd/molecule.sh.j2)
 [![YamlLint Test Status](https://badges.ansibleguy.net/sw_zoneminder.yamllint.svg)](https://github.com/ansibleguy/_meta_cicd/blob/latest/templates/usr/local/bin/cicd/yamllint.sh.j2)
 [![PyLint Test Status](https://badges.ansibleguy.net/sw_zoneminder.pylint.svg)](https://github.com/ansibleguy/_meta_cicd/blob/latest/templates/usr/local/bin/cicd/pylint.sh.j2)
 [![Ansible-Lint Test Status](https://badges.ansibleguy.net/sw_zoneminder.ansiblelint.svg)](https://github.com/ansibleguy/_meta_cicd/blob/latest/templates/usr/local/bin/cicd/ansiblelint.sh.j2)
-[![Ansible Galaxy](https://img.shields.io/ansible/role/59996)](https://galaxy.ansible.com/ansibleguy/sw_zoneminder)
-[![Ansible Galaxy Downloads](https://img.shields.io/badge/dynamic/json?color=blueviolet&label=Galaxy%20Downloads&query=%24.download_count&url=https%3A%2F%2Fgalaxy.ansible.com%2Fapi%2Fv1%2Froles%2F59996%2F%3Fformat%3Djson)](https://galaxy.ansible.com/ansibleguy/sw_zoneminder)
+[![Ansible Galaxy](https://badges.ansibleguy.net/galaxy.badge.svg)](https://galaxy.ansible.com/ui/standalone/roles/ansibleguy/sw_zoneminder)
 
+Molecule Logs: [Short](https://badges.ansibleguy.net/log/molecule_sw_zoneminder_test_short.log), [Full](https://badges.ansibleguy.net/log/molecule_sw_zoneminder_test.log)
 
 **Tested:**
 * Debian 11
 
+----
+
 ## Install
 
 ```bash
+# latest
+ansible-galaxy role install git+https://github.com/ansibleguy/sw_zoneminder
+
+# from galaxy
 ansible-galaxy install ansibleguy.sw_zoneminder
 
 # or to custom role-path
@@ -28,39 +36,25 @@ ansible-galaxy install ansibleguy.sw_zoneminder --roles-path ./roles
 ansible-galaxy install -r requirements.yml
 ```
 
-## Functionality
+----
 
-* **Package installation**
-  * ZoneMinder Server
-    * Base package and dependencies
-    * Apache2 => using [THIS Role](https://github.com/ansibleguy/infra_apache)
-    * MariaDB => using [THIS Role](https://github.com/ansibleguy/infra_mariadb)
+## Advertisement
 
+* Need **professional support** using Ansible or ZoneMinder? Contact us:
 
-* **Configuration**
-  * Default opt-ins:
-    * Database setup
-    * Webserver setup
+  E-Mail: [contact@oxl.at](mailto:contact@oxl.at)
 
-  * Default opt-outs:
-    * Admin-tools
+  Tel: [+43 3115 40 900 0](tel:+433115409000)
 
-  * Default config:
-    * Logging to syslog
-    * Self-Signed certificate
+  Web: [EN](https://www.o-x-l.com) | [DE](https://www.oxl.at)
 
-## Info
+  Language: German or English
 
-* **Note:** this role currently only supports debian-based systems
+* You want a simple **Ansible GUI**?
 
+  Check-out this [Ansible WebUI](https://github.com/ansibleguy/webui)
 
-* **Note:** Most of the role's functionality can be opted in or out.
-
-  For all available options - see the default-config located in the main defaults-file!
-
-
-* **Warning:** You should AT LEAST [set a login password after the installation finished](https://zoneminder.readthedocs.io/en/stable/userguide/gettingstarted.html#enabling-authentication).
-
+----
 
 ## Usage
 
@@ -79,7 +73,7 @@ zoneminder:
     aliases: ['zm.template.ansibleguy.net']
 
     ssl:
-      mode: 'letsencrypt'  # or selfsigned/ca
+      mode: 'letsencrypt'  # or selfsigned/ca/snakeoil
       #  if you use 'selfsigned' or 'ca':
       #    cert:
       #      cn: 'ZoneMinder Server'
@@ -112,3 +106,41 @@ ansible-playbook -K -D -i inventory/hosts.yml playbook.yml --ask-vault-pass
 
 There are also some useful **tags** available:
 * config
+
+----
+
+## Functionality
+
+* **Package installation**
+  * ZoneMinder Server
+    * Base package and dependencies
+    * Apache2 => using [THIS Role](https://github.com/ansibleguy/infra_apache)
+    * MariaDB => using [THIS Role](https://github.com/ansibleguy/infra_mariadb)
+
+
+* **Configuration**
+  * Default opt-ins:
+    * Database setup
+    * Webserver setup
+
+  * Default opt-outs:
+    * Admin-tools
+
+  * Default config:
+    * Logging to syslog
+    * Self-Signed certificate
+
+----
+
+## Info
+
+* **Note:** this role currently only supports debian-based systems
+
+
+* **Note:** Most of the role's functionality can be opted in or out.
+
+  For all available options - see the default-config located in [the main defaults-file](https://github.com/ansibleguy/sw_zoneminder/blob/latest/defaults/main/1_main.yml)!
+
+
+* **Warning:** You should AT LEAST [set a login password after the installation finished](https://zoneminder.readthedocs.io/en/stable/userguide/gettingstarted.html#enabling-authentication).
+

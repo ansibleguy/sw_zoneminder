@@ -6,7 +6,7 @@
     It needs: 'zoneminder' & 'zoneminder.apache.domain'"
   when: >
     zoneminder is undefined or
-    (ZM_CONFIG.manage.webserver and 'domain' not in ZM_CONFIG.apache)
+    (ZM_CONFIG.manage.webserver | bool and 'domain' not in ZM_CONFIG.apache)
 
 - name: ZoneMinder | Processing debian config
   ansible.builtin.import_tasks: debian/main.yml
