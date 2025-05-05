@@ -3,6 +3,7 @@
 NONE_VALUES: [none, '', ' ']
 random_pwd_length: '50'
 tmp_pwd_file_prefix: '/tmp/.ansibleguy.sw_zoneminder'
+zm_php_version_override: '7.4'
 
 ZM_HC:
   packages:
@@ -12,7 +13,7 @@ ZM_HC:
 
   repo_key: "https://zmrepo.zoneminder.com/{{ ansible_distribution | lower }}/archive-keyring.gpg"
   repo: "deb https://zmrepo.zoneminder.com/{{ ansible_distribution | lower }}/release {{ ansible_lsb.codename | default('buster') }}/"
-  php_version: '7.4'
+  php_version: '{{zm_php_version_override}}'
 
   apache:
     modules: ['ssl', 'headers', 'rewrite', 'http2', 'cgi']
